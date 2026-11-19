@@ -1,0 +1,7 @@
+[Unit]
+Description=Stop expired Boring connectors
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/boring _expire-due --json
+TimeoutStartSec=infinity

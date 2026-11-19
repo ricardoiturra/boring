@@ -1,0 +1,21 @@
+[Unit]
+Description=Boring Cloudflare connector %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+ExecCondition=+/usr/local/bin/boring _may-start --id %i
+ExecStart=/usr/bin/cloudflared tunnel --no-autoupdate run --token-file %d/tunnel-token
+LoadCredential=tunnel-token:/var/lib/boring/%i.token
+DynamicUser=yes
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+Restart=on-failure
+RestartSec=5s
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
